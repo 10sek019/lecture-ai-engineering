@@ -56,6 +56,18 @@ def display_chat_page(pipe):
                   st.session_state.feedback_given = False
                   st.rerun() # 画面をクリア
 
+    st.markdown("-----")
+
+    st.subheader("過去の質問")
+
+    history_df = get_chat_history()
+
+    for i, row in history_df.iterrows():
+      with st.expander(f"{row['question'][:50] if row['question'] else 'N/A'}"):
+          st.subheader(f"✨{row['question']}")
+          st.markdown(f"{row['answer']}")
+
+
 
 def display_feedback_form():
     """フィードバック入力フォームを表示する"""
