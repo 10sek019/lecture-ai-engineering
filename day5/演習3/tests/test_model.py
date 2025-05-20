@@ -171,3 +171,14 @@ def test_model_reproducibility(sample_data, preprocessor):
     assert np.array_equal(
         predictions1, predictions2
     ), "モデルの予測結果に再現性がありません"
+
+
+def test_survived_class_balance(train_model):
+    """Survivedのクラスバランスを確認（片方だけしかない等を検出）"""
+    model, X_test, y_test = train_model
+
+    # 予測と精度計算
+    y_pred = model.predict(X_test)
+    value_counts = y_pred.value_counts(normalize=True)
+    assert len(value_counts) == 2, "Survivedが片方のクラスしかありません"
+    assert value_counts.min() > 0.1, "Survivedのクラスに極端な偏りがあります"
