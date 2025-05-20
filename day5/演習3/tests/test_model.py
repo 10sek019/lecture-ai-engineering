@@ -179,6 +179,11 @@ def test_survived_class_balance(train_model):
 
     # 予測と精度計算
     y_pred = model.predict(X_test)
-    value_counts = y_pred.value_counts(normalize=True)
+
+    # NumPy配列をSeriesに変換
+    y_pred_series = pd.Series(y_pred)
+
+    # クラス分布を確認
+    value_counts = y_pred_series.value_counts(normalize=True)
     assert len(value_counts) == 2, "Survivedが片方のクラスしかありません"
     assert value_counts.min() > 0.1, "Survivedのクラスに極端な偏りがあります"
